@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="home :: header-meta-css" />
+</head>
+<body>
+	<div class="page">
+		<div th:replace="home :: header" />
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<div th:replace="home :: slide-menu" />
+
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">School years</h2>
+					</div>
+				</header>
+				<!-- Dashboard Counts Section-->
+				<section class="form" style="padding: 15px;">
+					<!-- Horizontal Form-->
+					<div class="col-lg-10">
+						<form class="form-horizontal" method="post"
+							th:action="@{/schoolyear/save}" th:object="${schoolYear}">
+							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
+								<input type="submit" value="Submit" class="btn btn-primary" />
+								<a class="btn btn-secondary" th:href="@{/schoolyears}">Cancel</a>
+							</div>
+							<div class="card" style="margin-left: 100px">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">Edit school year form</h3>
+								</div>
+								<div class="card-body">
+									<div class="form-group row">
+										<div class="col-sm-9">
+											<input th:field="*{id}" readonly="readonly" hidden="true"
+												class="form-control form-control-success" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label class="col-sm-3 form-control-label">Name</label>
+										<div class="col-sm-9">
+											<input th:field="*{name}" placeholder="Name"
+												class="form-control form-control-success" />
+										</div>
+									</div>
+									<div class="form-group row">
+						                <label for="dtp_input2" class="col-sm-3 form-control-label">Start date</label>
+						                <div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+						                    <input class="form-control" type="text" th:value="${schoolYear.realStartDate==null}?'':${#calendars.format(schoolYear.realStartDate,'dd MMMM yyyy')}" readonly="readonly"/>
+											<span class="input-group-addon">
+												<span class="fa fa-calendar" style="font-size: 30px;"></span>
+											</span>
+						                </div>
+										<input th:field="*{startDate}"  type="hidden" id="dtp_input2" value="" /><br/>
+						            </div>
+									<div class="form-group row">
+						                <label for="dtp_input3" class="col-sm-3 form-control-label">End date</label>
+						                <div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input3" data-link-format="yyyy-mm-dd">
+						                    <input  class="form-control" type="text" th:value="${schoolYear.realEndDate==null}?'':${#calendars.format(schoolYear.realEndDate,'dd MMMM yyyy')}" readonly="readonly"/>
+<!-- 						                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+											<span class="input-group-addon">
+												<span class="fa fa-calendar" style="font-size: 30px;"></span>
+											</span>
+						                </div>
+										<input th:field="*{endDate}" type="hidden" id="dtp_input3" value="" /><br/>
+						            </div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</section>
+				<div th:replace="home :: footer" />
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	  $('.form_datetime').datetimepicker({
+	        weekStart: 1,
+	        todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			forceParse: 0,
+	        showMeridian: 1
+	    });
+		
+		$('.form_date').datetimepicker({
+	        weekStart: 1,
+	        todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 1,
+			pickerPosition: "top-left"
+			
+	    });
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="home :: header-meta-css" />
+</head>
+<body>
+	<div class="page">
+		<div th:replace="home :: header" />
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<div th:replace="home :: slide-menu" />
+
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">Students</h2>
+					</div>
+				</header>
+				<!-- Dashboard Counts Section-->
+				<!-- Horizontal Form-->
+				<section class="form" style="padding: 20px">
+					<div class="col-lg-10">
+						<form:form class="form-horizontal" method="post"
+							action='${addAction}' modelAttribute="student">
+							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 30px">
+								<a th:href="@{'/student.edit.htm/' + ${student.id}}"
+										class="btn btn-primary">Edit</a><span></span> 
+								<a class="btn btn-secondary" th:href="@{/students}">Cancel</a>		
+							</div>	
+							<div class="card" style="margin-left: 30px;">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">Student details</h3>
+								</div>
+								<div class="card-body" style="padding-bottom: 0.5rem; margin-bottom: 0px">
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Matricule </label>
+										<form:label class="col-sm-4" path="matricule" th:text="': '+${student.matricule}" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">First name </label>
+										<form:label class="col-sm-4" path="firstName" th:text="': '+${student.firstName}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Last name </label>
+										<form:label class="col-sm-4" path="lastName" th:text="': '+${student.lastName}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Email </label>
+										<form:label class="col-sm-4" path="email" th:text="': '+${student.email}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Phone number </label>
+										<form:label class="col-sm-4" path="phoneNumber" th:text="': '+${student.phoneNumber}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Father phone number </label>
+										<form:label class="col-sm-4" path="fatherPhoneNumber" th:text="': '+${student.fatherPhoneNumber}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Mother phone number </label>
+										<form:label class="col-sm-4" path="motherPhoneNumber" th:text="': '+${student.motherPhoneNumber}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Entrance date</label>
+										<form:label class="col-sm-4" th:text="': '+ (${student.entranceDate==null}?'':${#calendars.format(student.entranceDate,'dd MMMM yyyy')})" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Classroom </label>
+										<a th:if="${classroom}!=null" th:href="@{'/classroom.view.htm/' + ${classroom.id}}" th:text="': '+${classroom.name}"></a>
+									</div>	
+								</div>
+							</div>
+						</form:form>
+					</div>
+				</section>
+				<div th:replace="home :: footer" ></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

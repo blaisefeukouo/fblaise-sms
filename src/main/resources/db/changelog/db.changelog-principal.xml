@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="20180901" author="blaise.feukouo">
+		<createTable tableName="employee" remarks="a table to contains all employees">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="user_name" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="password" type="varchar(255)" />
+			<column name="first_name" type="varchar(255)" />
+			<column name="last_name" type="varchar(255)" />
+			<column name="email" type="varchar(255)" />
+			<column name="phonenumber" type="varchar(255)" />
+			<column name="isactive" type="boolean" />
+			<column name="startdate" type="TIMESTAMP" />
+			<column name="enddate" type="TIMESTAMP" />
+		</createTable>
+		<createTable tableName="role">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="role" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+		</createTable>
+		<createTable tableName="employee_role">
+			<column name="employee_id" type="int8">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="role_id" type="int8">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+		</createTable>
+		<createTable tableName="schoolyear">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="startdate" type="TIMESTAMP" />
+			<column name="enddate" type="TIMESTAMP" />
+			<column name="state" type="varchar(255)" />
+		</createTable>
+		<createTable tableName="schoolyearpart">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="schoolyear_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="startdate" type="TIMESTAMP" />
+			<column name="enddate" type="TIMESTAMP" />
+		</createTable>
+		<createTable tableName="student">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="matricule" type="varchar(255)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="fatherphonenumber" type="varchar(255)" />
+			<column name="motherphonenumber" type="varchar(255)" />
+			<column name="entrancedate" type="TIMESTAMP" />
+			<column name="first_name" type="varchar(255)" />
+			<column name="last_name" type="varchar(255)" />
+			<column name="email" type="varchar(255)" />
+			<column name="phonenumber" type="varchar(255)" />
+			<column name="isactive" type="boolean" />
+		</createTable>
+		<createTable tableName="subject">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)" />
+			<column name="description" type="varchar(255)" />
+		</createTable>
+		<createTable tableName="classroom">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(255)" />
+			<column name="description" type="varchar(255)" />
+			<column name="fees" type="double" />
+		</createTable>
+		<createTable tableName="classroom_student">
+			<column name="id" type="int8" autoIncrement="true">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="classroom_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="student_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+			<column name="schoolyear_id" type="int8">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="schoolyear_classroom">
+			<column name="schoolyear_id" type="int8">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="classroom_id" type="int8">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseTableName="employee_role"
+			baseColumnNames="employee_id" constraintName="employee_fk"
+			referencedTableName="employee" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="employee_role"
+			baseColumnNames="role_id" constraintName="role_fk"
+			referencedTableName="role" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="schoolyear_classroom"
+			baseColumnNames="schoolyear_id" constraintName="schoolyear_fk"
+			referencedTableName="schoolyear" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="schoolyear_classroom"
+			baseColumnNames="classroom_id" constraintName="classroom_fk"
+			referencedTableName="classroom" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="schoolyearpart"
+			baseColumnNames="schoolyear_id" constraintName="schoolyear_fk"
+			referencedTableName="schoolyear" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="classroom_student"
+			baseColumnNames="classroom_id" constraintName="classroom_fk"
+			referencedTableName="classroom" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="classroom_student"
+			baseColumnNames="student_id" constraintName="student_fk"
+			referencedTableName="student" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="classroom_student"
+			baseColumnNames="schoolyear_id" constraintName="schoolyear_fk"
+			referencedTableName="schoolyear" referencedColumnNames="id" />
+		<addUniqueConstraint schemaName="public"
+			tableName="classroom_student" columnNames="schoolyear_id, classroom_id,student_id"
+			constraintName="shcoolyear_classroom_student_const" />
+	</changeSet>
+	<changeSet id="20180916-1" author="blaise.feukouo" dbms="postgresql,oracle">
+		<createSequence sequenceName="hibernate_sequence"
+			startValue="3" incrementBy="1" />
+	</changeSet>
+	<changeSet id="20180916-2" author="blaise.feukouo">
+		<insert tableName="role">
+			<column name="id" valueNumeric="1" />
+			<column name="role" value="ADMIN" />
+		</insert>
+		<insert tableName="role">
+			<column name="id" valueNumeric="2" />
+			<column name="role" value="TEACHER" />
+		</insert>
+		<insert tableName="employee">
+			<column name="id" valueNumeric="1" />
+			<column name="user_name" value="admin" />
+			<column name="password"
+				value="$2a$10$jiRgYBFYJG465CiqVgCFIesFDVEs/JmwCuPMZbdrF/LBS3AIBBMf." />
+			<column name="first_name" value="Blaise" />
+			<column name="last_name" value="Feukouo" />
+			<column name="email" value="blaise_feukjouo@yahoo.fr" />
+			<column name="phonenumber" value="00237691199154" />
+			<column name="isactive" value="true" />
+			<column name="startdate" value="2019-09-02 00:00:00" />
+		</insert>
+		<insert tableName="employee_role">
+			<column name="employee_id" value="1" />
+			<column name="role_id" value="1" />
+		</insert>
+		<insert tableName="schoolyear">
+			<column name="id" valueNumeric="1" />
+			<column name="name" value="SchoolYear 2018-2019" />
+			<column name="state" value="Opened" />
+			<column name="startdate" value="2018-09-03 00:00:00" />
+			<column name="enddate" value="2019-09-03 00:00:00" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="home :: header-meta-css" />
+</head>
+<body>
+	<div class="page">
+		<div th:replace="home :: header" />
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<div th:replace="home :: slide-menu" />
+
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">Subjects</h2>
+					</div>
+				</header>
+				<!-- Dashboard Counts Section-->
+				<!-- Horizontal Form-->
+				<section class="form" style="padding: 20px">
+					<div class="col-lg-10">
+						<form:form class="form-horizontal" method="post"
+							action='${addAction}' modelAttribute="subject">
+							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 30px">
+								<a th:href="@{'/subject.edit.htm/' + ${subject.id}}"
+										class="btn btn-primary">Edit</a><span></span> 
+								<a class="btn btn-secondary" th:href="@{/subjects}">Cancel</a>		
+							</div>	
+							<div class="card" style="margin-left: 30px;">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">subject details</h3>
+								</div>
+								<div class="card-body" style="padding-bottom: 0.5rem; margin-bottom: 0px">
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Name </label>
+										<form:label class="col-sm-4" path="name" th:text="': '+${subject.name}" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-3 form-control-label">Description </label>
+										<form:label class="col-sm-4" path="description" th:text="': '+${subject.description}" />
+									</div>
+								</div>
+							</div>
+						</form:form>
+					</div>
+				</section>
+				<div th:replace="home :: footer" ></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

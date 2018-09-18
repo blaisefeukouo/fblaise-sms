@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="home :: header-meta-css" />
+<style type="text/css">
+	.select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 35px;
+    width: 200px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+</style>
+</head>
+<body>
+	<div class="page">
+		<div th:replace="home :: header" />
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<div th:replace="home :: slide-menu" />
+
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">Classrooms</h2>
+					</div>
+				</header>
+				<!-- Dashboard Counts Section-->
+				<!-- Horizontal Form-->
+				<section class="form" style="padding: 20px">
+					<div class="col-lg-10">
+						<form:form class="form-horizontal" method="post"
+							action='${addAction}' modelAttribute="classroom">
+							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 30px">
+								<a th:href="@{'/classroom.edit.htm/' + ${classroom.id}}"
+										class="btn btn-primary">Edit</a><span></span> 
+								<a class="btn btn-primary" th:href="@{/classroom.student.pick(classroomId=${classroom.id})}">Add student</a>
+								<a class="btn btn-secondary" th:href="@{/classrooms}">Cancel</a>		
+							</div>	
+							<div class="card" style="margin-left: 30px;">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">Classroom details</h3>
+								</div>
+								<div class="card-body" style="padding-bottom: 0.5rem; margin-bottom: 0px">
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">Name </label>
+										<form:label class="col-sm-4" path="name" th:text="': '+${classroom.name}" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">Description </label>
+										<form:label class="col-sm-4" path="name" th:text="': '+${classroom.description}" />
+									</div>
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">Fees </label>
+										<form:label class="col-sm-4" path="name" th:text="': '+${classroom.fees}" />
+									</div>
+								</div>
+							</div>
+						</form:form>
+						<div class="card" style="margin-left: 30px; margin-top:-15px;">
+							<div class="card-header d-flex align-items-center" style="padding-top: 0.4rem;padding-bottom: 0.4rem">
+								<h3>Students</h3>
+							</div>
+							<div class="card-body" style="margin-bottom:-30px;">
+								<div class="table-responsive">
+									<table class="table table-striped table-hover">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Registration number</th>
+												<th>First name</th>
+												<th>Last name</th>
+												<th>Phone number</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="classroomStudent, iterStat:${studentsList}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text="${classroomStudent.student.matricule}"></td>
+												<td th:text="${classroomStudent.student.firstName}"></td>
+												<td th:text="${classroomStudent.student.lastName}"></td>
+												<td th:text="${classroomStudent.student.phoneNumber}"></td>
+												<td>
+													<a th:attr="data-classroomid=${classroom.id},data-studentid=${classroomStudent.student.id}"  data-toggle="modal" 
+														class="open-DeleteDialog " th:href="@{#}">
+														<i style=" font-size: 20px" class="glyphicon glyphicon-trash"></i>
+													</a>														
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</section>
+				<div th:replace="home :: footer" ></div>
+			</div>
+		</div>
+	</div>
+	<div id="deleteItemDialog" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<form method="post" th:action="@{/classroom.student.remove}"
+				th:object="${forDeleteAction}">
+				<div class="modal-content">
+					<div class="modal-header alert-danger">
+						<h4 class="modal-title">Attention</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Do you really want to remove this student to the classroom ?</p>
+						<input type="hidden" th:field="*{parentId}" name="classroomid" id="classroomid" value="" />
+						<input type="hidden" th:field="*{id}" name="studentid" id="studentid" value="" />
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="Ok" class="btn btn-primary" />
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+<!-- 	<div id="studentPickerDialog" class="modal fade" tabindex="-1" role="dialog"> -->
+<!-- 		<div class="modal-dialog" role="document"> -->
+<!-- 			<form method="post" th:action="@{/classroom.student.add}" -->
+<!-- 				th:object="${forDeleteAction}"> -->
+<!-- 				<div class="modal-content"> -->
+<!-- 					<div class="modal-header alert-success"> -->
+<!-- 						<h4 class="modal-title">Select the student you want to add</h4> -->
+<!-- 						<button type="button" class="close" data-dismiss="modal">&times;</button> -->
+<!-- 					</div> -->
+<!-- 					<div class="modal-body"> -->
+<!-- 						<div class="form-group row"> -->
+<!-- 							<label class="col-sm-3">Student :</label> -->
+<!-- 				            <div class="col-sm-9 select"> -->
+<!-- 					        	<select th:field="*{id}" -->
+<!-- 									class="js-example-basic-single form-control form-control-success"  -->
+<!-- 									id="student-id" name="products[]"> -->
+<!-- 									<option th:each="student : ${allStudents}" th:text="${student.getMatricule()}+'-'+${student.getFullName()}" -->
+<!-- 					                	th:value="${student.id}" />	 -->
+<!-- 								</select> -->
+<!-- 				        	</div> -->
+<!-- 				        </div> -->
+						
+<!-- 						<input type="hidden" th:field="*{parentId}" name="classroomid" id="classroom1id" value="" /> -->
+<!-- 					</div> -->
+<!-- 					<div class="modal-footer"> -->
+<!-- 						<input type="submit" value="Ok" class="btn btn-primary" /> -->
+<!-- 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</form> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	<script type="text/javascript">
+		$(function() {
+			$(".open-DeleteDialog").click(function() {
+				$('#classroomid').val($(this).data('classroomid'));
+				$('#studentid').val($(this).data('studentid'));
+				$("#deleteItemDialog").modal("show");
+			});
+			$(".open-StudentPickerDialog").click(function() {
+				$('#classroom1id').val($(this).data('id'));
+				$("#studentPickerDialog").modal("show");
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="home :: header-meta-css" />
+</head>
+<body>
+	<div class="page">
+		<div th:replace="home :: header" />
+		<div class="page-content d-flex align-items-stretch">
+			<!-- Side Navbar -->
+			<div th:replace="home :: slide-menu" />
+
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">School years</h2>
+					</div>
+				</header>
+				<!-- Dashboard Counts Section-->
+				<!-- Horizontal Form-->
+				<section class="form" style="padding: 20px">
+					<div class="col-lg-10">
+						<form:form class="form-horizontal" method="post"
+							action='${addAction}' modelAttribute="schoolYear">
+							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 30px">
+								<a th:href="@{'/schoolyear.edit.htm/' + ${schoolYear.id}}"
+										class="btn btn-primary">Edit</a><span></span> 
+								<a class="btn btn-primary open-AddSchoolYearPartFormDialog" th:href="@{#}">Add part</a>
+								<a th:href="@{'/schoolyear/open/' + ${schoolYear.id}}"
+												class="btn btn-primary">Open </a>
+								<a th:href="@{'/schoolyear/close/' + ${schoolYear.id}}"
+												class="btn btn-primary">Close </a>
+								<a class="btn btn-secondary" th:href="@{/schoolyears}">Cancel</a>		
+							</div>	
+							<div class="card" style="margin-left: 30px;">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">School year details</h3>
+								</div>
+								<div class="card-body" style="padding-bottom: 0.5rem; margin-bottom: -20px">
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">Name </label>
+										<form:label class="col-sm-4" path="name" th:text="': '+${schoolYear.name}" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">Start date</label>
+										<form:label class="col-sm-4" th:text="': '+ (${schoolYear.startDate==null}?'':${#calendars.format(schoolYear.startDate,'dd MMMM yyyy')})" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">End date</label>
+										<form:label class="col-sm-4" th:text="': '+ (${schoolYear.endDate==null}?'':${#calendars.format(schoolYear.endDate,'dd MMMM yyyy')})" />
+									</div>	
+									<div class="form-group row" style="margin-left: 19px">
+										<label class="col-sm-2 form-control-label">state </label>
+										<form:label class="col-sm-4" path="state" th:text="': '+${schoolYear.state}" />
+									</div>	
+								
+								</div>
+							</div>
+						</form:form>
+						<div class="card" style="margin-left: 30px; margin-top:-15px;">
+							<div class="card-body" style="margin-bottom:-30px;"> 
+								<ul class="nav nav-tabs">
+								  <li class="nav-item">
+								    <a class="nav-link active" data-toggle="pill" href="#home">School year parts</a>
+								  </li>
+								  <li class="nav-item">
+								    <a class="nav-link" data-toggle="pill" href="#menu1">Classrooms</a>
+								  </li>
+								</ul>
+								
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div class="tab-pane container active" id="home">
+								  		<div class="table-responsive"> 
+											<table class="table table-striped table-hover">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Name</th>
+														<th>Start date</th>
+														<th>End date</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="part, iterStat:${schoolYearPartsList}">
+														<td th:text="${iterStat.count}">1</td>
+														<td th:text="${part.name}"></td>
+														<td th:text="${part.startDate==null}?'':${#calendars.format(part.startDate,'dd MMMM yyyy')}"></td>
+														<td th:text="${part.endDate==null}?'':${#calendars.format(part.endDate,'dd MMMM yyyy')}"></td>
+														<td>
+															<a th:attr="data-partid=${part.id}, data-partname=${part.name}, data-partstartdate=${#calendars.format(part.startDate,'dd MMMM yyyy')}, data-realstartdate=${part.startDate}, data-partenddate=${#calendars.format(part.endDate,'dd MMMM yyyy')}, data-realenddate=${part.endDate}" 
+																class="open-SchoolYearPartFormDialog" th:href="@{#}">
+																<i class="fa fa-edit" style="font-size: 20px;"></i>
+															</a>
+														</td>
+														<td>
+															<a th:attr="data-schoolyearid=${schoolYear.id},data-partid=${part.id}"  data-toggle="modal" 
+																class="open-DeleteDialog " th:href="@{#}">
+																<i style=" font-size: 20px" class="glyphicon glyphicon-trash"></i>
+															</a>														
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+								  	</div>
+								  	<div class="tab-pane container fade" id="menu1">
+										<div class="table-responsive"> 
+											<table class="table table-striped table-hover">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Name</th>
+														<th>Description</th>
+														<th>Fees</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="classroom, iterStat:${classrooms}">
+														<td th:text="${iterStat.count}">1</td>
+														<td th:text="${classroom.name}"></td>
+														<td th:text="${classroom.description}"></td>
+														<td th:text="${classroom.fees}"></td>
+														<td>
+															<a th:attr="data-schoolyearid1=${schoolYear.id},data-classroomid=${classroom.id}"  data-toggle="modal" 
+																class="open-RemoveClassroomDialog" th:href="@{#}">
+																<i style=" font-size: 20px" class="glyphicon glyphicon-trash"></i>
+															</a>														
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+								  	</div>
+								</div>
+							</div>
+						
+						
+						
+						
+						
+						
+<!-- 							<div class="card-body" style="margin-bottom:-30px;"> -->
+<!-- 								<div class="table-responsive"> -->
+<!-- 									<table class="table table-striped table-hover"> -->
+<!-- 										<thead> -->
+<!-- 											<tr> -->
+<!-- 												<th>#</th> -->
+<!-- 												<th>Name</th> -->
+<!-- 												<th>Start date</th> -->
+<!-- 												<th>End date</th> -->
+<!-- 												<th></th> -->
+<!-- 											</tr> -->
+<!-- 										</thead> -->
+<!-- 										<tbody> -->
+<!-- 											<tr th:each="part, iterStat:${schoolYearPartsList}"> -->
+<!-- 												<td th:text="${iterStat.count}">1</td> -->
+<!-- 												<td th:text="${part.name}"></td> -->
+<!-- 												<td th:text="${part.startDate==null}?'':${#calendars.format(part.startDate,'dd MMMM yyyy')}"></td> -->
+<!-- 												<td th:text="${part.endDate==null}?'':${#calendars.format(part.endDate,'dd MMMM yyyy')}"></td> -->
+<!-- 												<td> -->
+<!-- 													<a th:attr="data-partid=${part.id}, data-partname=${part.name}, data-partstartdate=${#calendars.format(part.startDate,'dd MMMM yyyy')}, data-realstartdate=${part.startDate}, data-partenddate=${#calendars.format(part.endDate,'dd MMMM yyyy')}, data-realenddate=${part.endDate}"  -->
+<!-- 														class="open-SchoolYearPartFormDialog" th:href="@{#}"> -->
+<!-- 														<i class="fa fa-edit" style="font-size: 20px;"></i> -->
+<!-- 													</a> -->
+<!-- 												</td> -->
+<!-- 												<td> -->
+<!-- 													<a th:attr="data-schoolyearid=${schoolYear.id},data-partid=${part.id}"  data-toggle="modal"  -->
+<!-- 														class="open-DeleteDialog " th:href="@{#}"> -->
+<!-- 														<i style=" font-size: 20px" class="glyphicon glyphicon-trash"></i> -->
+<!-- 													</a>														 -->
+<!-- 												</td> -->
+<!-- 											</tr> -->
+<!-- 										</tbody> -->
+<!-- 									</table> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+						</div>
+					</div>
+				</section>
+				<div th:replace="home :: footer" ></div>
+			</div>
+		</div>
+	</div>
+	<div id="deleteItemDialog" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<form method="post" th:action="@{/schoolyear.part.remove}"
+				th:object="${forDeleteAction}">
+				<div class="modal-content">
+					<div class="modal-header alert-danger">
+						<h4 class="modal-title">Attention</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Do you really want to remove this school year part ?</p>
+						<input type="hidden" th:field="*{parentId}" name="schoolyearid" id="schoolyearid" value="" />
+						<input type="hidden" th:field="*{id}" name="partid" id="partid" value="" />
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="Ok" class="btn btn-primary" />
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="schoolYearPartFormDialog" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<form method="post" th:action="@{/schoolyear.part.save}"
+				th:object="${schoolYearPart}">
+				<div class="modal-content">
+					<div class="modal-header alert-success">
+						<h4 class="modal-title">School year part Form</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<label class="col-sm-3 form-control-label">Name</label>
+							<div class="col-sm-9">
+								<input type="text" th:field="*{name}" id="partname" placeholder="Name"
+									class="form-control form-control-success" value="" />
+								<small class="form-text" >Enter the name here .</small>
+							</div>
+						</div>
+						<div class="form-group row">
+						    <label for="dtp_input2" class="col-sm-3 form-control-label">Start date</label>
+						    <div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+								<input class="form-control" id="startdate" name="startdate" type="text" readonly="readonly"/>
+								<span class="input-group-addon">
+									<span class="fa fa-calendar" style="font-size: 30px;"></span>
+								</span>
+							</div>
+							<input th:field="*{startDate}" type="hidden" id="dtp_input2" value="" /><br/>
+						</div>
+						<div class="form-group row">
+							<label for="dtp_input3" class="col-sm-3 form-control-label">End date</label>
+							<div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input3" data-link-format="yyyy-mm-dd">
+								<input  class="form-control" id="enddate" name="enddate" type="text" readonly="readonly"/>
+								<span class="input-group-addon">
+									<span class="fa fa-calendar" style="font-size: 30px;"></span>
+								</span>
+							</div>
+							<input th:field="*{endDate}" type="hidden" id="dtp_input3" value="" /><br/>
+						</div>
+						<input type="hidden" th:field="*{id}" id="partid2" value="" />
+						<input type="hidden" th:field="*{schoolYearId}"  value="" />
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="Ok" class="btn btn-primary" />
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="removeClassroomDialog" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<form method="post" th:action="@{/schoolyear.classroom.remove}"
+				th:object="${forDeleteAction}">
+				<div class="modal-content">
+					<div class="modal-header alert-danger">
+						<h4 class="modal-title">Attention</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Do you really want to remove this classroom ?</p>
+						<input type="hidden" th:field="*{parentId}" name="schoolyearid1" id="schoolyearid1" value="" />
+						<input type="hidden" th:field="*{id}" name="classroomid" id="classroomid" value="" />
+					</div>
+					<div class="modal-footer">
+						<input type="submit" value="Ok" class="btn btn-primary" />
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$(".open-DeleteDialog").click(function() {
+				$('#schoolyearid').val($(this).data('schoolyearid'));
+				$('#partid').val($(this).data('partid'));
+				$("#deleteItemDialog").modal("show");
+			});
+			$(".open-AddSchoolYearPartFormDialog").click(function() {
+				$("#schoolYearPartFormDialog").modal("show");
+			});
+			$(".open-SchoolYearPartFormDialog").click(function() {
+				$('#partid2').val($(this).data('partid'));
+				$('#partname').val($(this).data('partname'));
+				$('#startdate').val($(this).data('partstartdate'));
+				$('#dtp_input2').val($(this).data('realstartdate'));
+				$('#enddate').val($(this).data('partenddate'));
+				$('#dtp_input3').val($(this).data('realenddate'));				
+				$("#schoolYearPartFormDialog").modal("show");
+			});
+			$(".open-RemoveClassroomDialog").click(function() {
+				$('#schoolyearid1').val($(this).data('schoolyearid1'));
+				$('#classroomid').val($(this).data('classroomid'));
+				$("#removeClassroomDialog").modal("show");
+			});
+			
+			$('.form_date').datetimepicker({
+		        weekStart: 1,
+		        todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 1,
+				pickerPosition: "bottom-left"
+				
+		    });
+		});
+	</script>
+</body>
+</html>
