@@ -34,39 +34,39 @@
 								</div>
 								<div class="card-body" style="padding-bottom: 0.5rem; margin-bottom: 0px">
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Matricule </label>
-										<form:label class="col-sm-4" path="matricule" th:text="': '+${student.matricule}" />
+										<label class="col-sm-3 form-control-label">Matricule </label>
+										<form:label class="col-sm-5" path="matricule" th:text="': '+${student.matricule}" />
 									</div>	
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">First name </label>
-										<form:label class="col-sm-4" path="firstName" th:text="': '+${student.firstName}" />
+										<label class="col-sm-3 form-control-label">First name </label>
+										<form:label class="col-sm-5" path="firstName" th:text="': '+${student.firstName}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Last name </label>
-										<form:label class="col-sm-4" path="lastName" th:text="': '+${student.lastName}" />
+										<label class="col-sm-3 form-control-label">Last name </label>
+										<form:label class="col-sm-5" path="lastName" th:text="': '+${student.lastName}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Email </label>
-										<form:label class="col-sm-4" path="email" th:text="': '+${student.email}" />
+										<label class="col-sm-3 form-control-label">Email </label>
+										<form:label class="col-sm-5" path="email" th:text="': '+${student.email}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Phone number </label>
-										<form:label class="col-sm-4" path="phoneNumber" th:text="': '+${student.phoneNumber}" />
+										<label class="col-sm-3 form-control-label">Phone number </label>
+										<form:label class="col-sm-5" path="phoneNumber" th:text="': '+${student.phoneNumber}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Father phone number </label>
-										<form:label class="col-sm-4" path="fatherPhoneNumber" th:text="': '+${student.fatherPhoneNumber}" />
+										<label class="col-sm-3 form-control-label">Father phone number </label>
+										<form:label class="col-sm-5" path="fatherPhoneNumber" th:text="': '+${student.fatherPhoneNumber}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Mother phone number </label>
-										<form:label class="col-sm-4" path="motherPhoneNumber" th:text="': '+${student.motherPhoneNumber}" />
+										<label class="col-sm-3 form-control-label">Mother phone number </label>
+										<form:label class="col-sm-5" path="motherPhoneNumber" th:text="': '+${student.motherPhoneNumber}" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Entrance date</label>
-										<form:label class="col-sm-4" th:text="': '+ (${student.entranceDate==null}?'':${#calendars.format(student.entranceDate,'dd MMMM yyyy')})" />
+										<label class="col-sm-3 form-control-label">Entrance date</label>
+										<form:label class="col-sm-5" th:text="': '+ (${student.entranceDate==null}?'':${#calendars.format(student.entranceDate,'dd MMMM yyyy')})" />
 									</div>
 									<div class="form-group row" style="margin-left: 19px">
-										<label class="col-sm-4 form-control-label">Classroom </label>
+										<label class="col-sm-3 form-control-label">Classroom </label>
 										<a th:if="${classroom}!=null" th:href="@{'/classroom.view.htm/' + ${classroom.id}}" th:text="': '+${classroom.name}"></a>
 									</div>	
 								</div>
