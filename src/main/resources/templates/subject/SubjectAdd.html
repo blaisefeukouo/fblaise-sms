@@ -20,10 +20,10 @@
 				<!-- Dashboard Counts Section-->
 				<section class="form" style="padding: 15px;">
 					<div class="col-lg-10">
-						<form class="form-horizontal" method="post"
+						<form class="form-horizontal" method="post" id="subjectForm"
 							th:action="@{/subject/save}" th:object="${subject}">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
+								<input type="submit" value="Submit" class="submit btn btn-primary" />
 								<a class="btn btn-secondary" th:href="@{/subjects}">Cancel</a>					
 							</div>
 							<div class="card" style="margin-left: 100px">
@@ -35,7 +35,7 @@
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">Name</label>
 										<div class="col-sm-9">
-											<input type="text" th:field="*{name}" id="name" placeholder="name"
+											<input type="text" th:field="*{name}" id="name" placeholder="name" required="required"
 												class="form-control form-control-success" value="" />
 											<small class="form-text" >Enter the name here .</small>
 										</div>
@@ -58,5 +58,16 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$("#subjectForm").validate({
+				messages: {
+					name: {
+						required: 'Please enter the name'
+					},
+				}
+			});
+		});
+	</script>
 </body>
 </html>

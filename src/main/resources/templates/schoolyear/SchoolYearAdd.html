@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <div th:replace="home :: header-meta-css" />
+
 </head>
 <body>
 	<div class="page">
@@ -21,9 +22,9 @@
 				<section class="form" style="padding: 15px;">
 					<div class="col-lg-10">
 						<form class="form-horizontal" method="post"
-							th:action="@{/schoolyear/save}" th:object="${schoolYear}">
+							th:action="@{/schoolyear/save}" th:object="${schoolYear}" id="addSchoolYearForm">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
+								<input type="submit" value="Submit" class="submit btn btn-primary" />
 								<a class="btn btn-secondary" th:href="@{/schoolyears}">Cancel</a>					
 							</div>
 							<div class="card" style="margin-left: 100px">
@@ -33,29 +34,28 @@
 								<div class="card-body">
 									<p>Enter the schoolyear informations</p>
 									<div class="form-group row">
-										<label class="col-sm-3 form-control-label">Name</label>
+										<label for="name" class="col-sm-3 form-control-label">Name</label>
 										<div class="col-sm-9">
 											<input type="text" th:field="*{name}" id="name" placeholder="Name"
-												class="form-control form-control-success" value="" />
+												class="form-control form-control-success" value="" minlength="2" required="required"/>
 											<small class="form-text" >Enter the name here .</small>
 										</div>
 									</div>
 									<div class="form-group row">
 						                <label for="dtp_input2" class="col-sm-3 form-control-label">Start date</label>
 						                <div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-						                    <input class="form-control" type="text"  readonly="readonly"/>
+						                    <input id="startDate" class="form-control" type="text" readonly="readonly" value=""/>
 											<span class="input-group-addon"><span class="fa fa-calendar" style="font-size: 30px;"></span></span>
 						                </div>
-										<input th:field="*{startDate}"  type="hidden" id="dtp_input2" value="" /><br/>
+										<input th:field="*{startDate}"  type="hidden" id="dtp_input2"  /><br/>
 						            </div>
 									<div class="form-group row">
 						                <label for="dtp_input3" class="col-sm-3 form-control-label">End date</label>
 						                <div class="col-sm-9 input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input3" data-link-format="yyyy-mm-dd">
-						                    <input  class="form-control" type="text" readonly="readonly"/>
-<!-- 						                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+						                    <input id="endDate" class="form-control" type="text" readonly="readonly" value=""/>
 											<span class="input-group-addon"><span class="fa fa-calendar" style="font-size: 30px;"></span></span>
 						                </div>
-										<input th:field="*{endDate}" type="hidden" id="dtp_input3" value="" /><br/>
+										<input th:field="*{endDate}" type="hidden" id="dtp_input3" /><br/>
 						            </div>
 								</div>
 							</div>
@@ -67,6 +67,14 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		function formatDate(date) {
+			 var d = new Date(date);
+			 var month = '' + (d.getMonth() + 1);
+			 var day = '' + d.getDate();
+			 var year = d.getFullYear();
+			 
+			 return [year, month, day].join('-');
+		}
 	  $('.form_datetime').datetimepicker({
 	        weekStart: 1,
 	        todayBtn:  1,
@@ -76,7 +84,7 @@
 			forceParse: 0,
 	        showMeridian: 1
 	    });
-		
+	  
 		$('.form_date').datetimepicker({
 	        weekStart: 1,
 	        todayBtn:  1,
@@ -88,6 +96,16 @@
 			pickerPosition: "top-left"
 			
 	    });
+		$('#dtp_input2').val(formatDate(Date()));
+		$('#dtp_input3').val(formatDate(Date()));
+		
+		$("#addSchoolYearForm").validate({
+			messages: {
+				name: {
+					required: 'Please enter the name'
+				}
+			}
+		});
 	</script>
 </body>
 </html>

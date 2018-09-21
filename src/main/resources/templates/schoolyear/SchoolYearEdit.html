@@ -21,10 +21,10 @@
 				<section class="form" style="padding: 15px;">
 					<!-- Horizontal Form-->
 					<div class="col-lg-10">
-						<form class="form-horizontal" method="post"
+						<form class="form-horizontal" method="post" id="editSchoolYearForm"
 							th:action="@{/schoolyear/save}" th:object="${schoolYear}">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
+								<input type="submit" value="Submit" class="submit btn btn-primary" />
 								<a class="btn btn-secondary" th:href="@{/schoolyears}">Cancel</a>
 							</div>
 							<div class="card" style="margin-left: 100px">
@@ -41,7 +41,7 @@
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">Name</label>
 										<div class="col-sm-9">
-											<input th:field="*{name}" placeholder="Name"
+											<input th:field="*{name}" id="name" name="name" placeholder="Name" required="required"
 												class="form-control form-control-success" />
 										</div>
 									</div>
@@ -97,6 +97,14 @@
 			pickerPosition: "top-left"
 			
 	    });
+		$("#editSchoolYearForm").validate();
+		$("#editSchoolYearForm").validate({
+			messages: {
+				name: {
+					required: 'Please enter the name'
+				}
+			}
+		});
 	</script>
 	
 </body>

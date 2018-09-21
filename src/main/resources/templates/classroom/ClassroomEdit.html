@@ -20,10 +20,10 @@
 				<!-- Dashboard Counts Section-->
 				<section class="form" style="padding: 15px;">
 					<div class="col-lg-10">
-						<form class="form-horizontal" method="post"
+						<form class="form-horizontal" method="post" id="classroomForm"
 							th:action="@{/classroom/save}" th:object="${classroom}">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
+								<input type="submit" value="Submit" class="submit btn btn-primary" />
 								<a class="btn btn-secondary" th:href="@{/classrooms}">Cancel</a>					
 							</div>
 							<div class="card" style="margin-left: 100px">
@@ -42,7 +42,7 @@
 										<label class="col-sm-3 form-control-label">Name</label>
 										<div class="col-sm-9">
 											<input type="text" th:field="*{name}" id="name" placeholder="Name"
-												class="form-control form-control-success" value="" />
+												class="form-control form-control-success" value="" required="required" />
 											<small class="form-text" >Enter the name here .</small>
 										</div>
 									</div>
@@ -58,8 +58,8 @@
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">Fees</label>
 										<div class="col-sm-9">
-											<input type="text" th:field="*{fees}" id="fees" placeholder="fees"
-												class="form-control form-control-success" value="" />
+											<input type="number" th:field="*{fees}" id="fees" placeholder="fees"
+												class="form-control form-control-success" value="" required="required" />
 											<small class="form-text" >Enter the fees here .</small>
 										</div>
 									</div>
@@ -72,5 +72,19 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$("#classroomForm").validate({
+				messages: {
+					name: {
+						required: 'Please enter the name'
+					},
+					fees: {
+						required: 'Please enter the fees'
+					}
+				}
+			});
+		});
+	</script>
 </body>
 </html>

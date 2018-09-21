@@ -69,7 +69,7 @@ public class AdministrationController {
 			Employee employee = null;
 			try {
 				employee = new Employee(uiEmployee.getFirstName(), uiEmployee.getLastName(), uiEmployee.getEmail(),
-						uiEmployee.getPhoneNumber(), uiEmployee.getPhoneNumber(), uiEmployee.getPassword(),
+						uiEmployee.getPhoneNumber(), uiEmployee.getUserName(), uiEmployee.getPassword(),
 						dfm.parse(uiEmployee.getStartDate()), null, true);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block

@@ -32,8 +32,15 @@
 	<link rel="stylesheet" th:href="@{/css/glyphicons/glyphicons.css}"></link>
 <!-- 	<link rel="stylesheet" th:href="@{/font-awesome-master/css/font-awesome.min.css}"></link> -->
 	<link rel="stylesheet" th:href="@{/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}" media="screen"></link>
-
+	<link rel="shortcut icon"
+		th:href="@{/css/main.css}"></link>
+	<style>
+		form label.error{
+			color: red;
+		}
+	</style>
 </div>
+
 </head>
 <body>
 	<div class="page">
@@ -163,22 +170,12 @@
 							<a th:href="@{/schoolyears}"> 
 								<i class="fa fa-graduation-cap" style="font-size: 23px"></i>SchoolYears
 							</a>
-<!-- 							<ul id="Operations" class="collapse list-unstyled "> -->
-<!-- 								<li><a th:href="@{/commands}">Commands</a></li> -->
-<!-- 								<li><a th:href="@{/sales}">Sales</a></li> -->
-<!-- 							</ul> -->
 						</li>
 						<li> 
 							<a th:href="@{/classrooms}"> 
 								<i class="fa fa-bank" style="font-size: 23px;"></i>
 								<label style="margin-left: 5px">Classrooms</label>
 							</a>
-<!-- 							<ul id="Structure" class="collapse list-unstyled "> -->
-<!-- 								<li><a th:href="@{/products}"><i class="icon-bill"></i>Product</a></li> -->
-<!-- 								<li><a th:href="@{/clients}"> <i data-feather="users"></i><label -->
-<!-- 										style="margin-left: 5px">Clients</label> -->
-<!-- 								</a></li> -->
-<!-- 							</ul> -->
 						</li>
 						<li>	
 							<a th:href="@{/students}"> <i class="fa fa-group" style="font-size: 23px"></i>
@@ -288,6 +285,8 @@
 					<script type="text/javascript" th:src="@{/select2/js/select2.min.js}"></script>
 					<script type="text/javascript" th:src="@{/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}" charset="UTF-8"></script>
 					<script type="text/javascript" th:src="@{/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js}" charset="UTF-8"></script>
+<!-- 					for Form Validation -->
+					<script type="text/javascript" th:src="@{/jquery-validation-1.17.0/jquery.validate.min.js}"></script>
 <!-- 						primeng face				 -->
 <!--						 wthousand : tchat en ligne -->
 					<script type="text/javascript" th:src="@{/js/feather.js}"></script>

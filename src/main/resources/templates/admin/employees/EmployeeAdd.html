@@ -20,10 +20,10 @@
 				<!-- Dashboard Counts Section-->
 				<section class="form" style="padding: 15px">
 					<div class="col-lg-10">
-						<form class="form-horizontal" method="post"
+						<form class="form-horizontal" method="post" id="employeeForm"
 								th:action="@{/admin/employee/add}" modelAttribute="employee">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
+								<input type="submit" value="Submit" class="submit btn btn-primary" />
 								<a class="btn btn-secondary" th:href="@{/admin/employees}">Cancel</a>			
 							</div>	
 							<div class="card" style="margin-left: 100px">
@@ -35,7 +35,7 @@
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">First name</label>
 										<div class="col-sm-9">
-											<input type="text" name="firstName" id="firstName"
+											<input type="text" name="firstName" id="firstName" required="required"
 												placeholder="First name"
 												class="form-control form-control-success" value="" /><small
 												class="form-text">Enter your First name here .</small>
@@ -62,7 +62,7 @@
 									<div class="form-group row">
 										<label class="col-sm-3 form-control-label">Phone number</label>
 										<div class="col-sm-9">
-											<input type="phoneNumber" name="phoneNumber" id="phoneNumber"
+											<input type="number" name="phoneNumber" id="phoneNumber"
 												placeholder="Phone number"
 												class="form-control form-control-success" value="" /><small
 												class="form-text">Enter the phone number here .</small>
@@ -73,7 +73,7 @@
 										<div class="col-sm-9">
 											<input type="text" name="userName" id="userName"
 												placeholder="User name"
-												class="form-control form-control-success" value="" />
+												class="form-control form-control-success" value="" required="required"/>
 											<small class="form-text">Enter the user name here .</small> 
 											<label th:if="${userNameError != null}" class="validation-message">
 												There is already en enployee with this userName
@@ -85,8 +85,8 @@
 										<div class="col-sm-9">
 											<input type="password" name="password" id="password"
 												placeholder="password"
-												class="form-control form-control-success" value="" /><small
-												class="form-text">Enter your password here .</small>
+												class="form-control form-control-success" value="" required="required"/>
+											<small class="form-text">Enter the password here .</small> 
 										</div>
 									</div>
 									<div class="form-group row">
@@ -107,6 +107,14 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		function formatDate(date) {
+			 var d = new Date(date);
+			 var month = '' + (d.getMonth() + 1);
+			 var day = '' + d.getDate();
+			 var year = d.getFullYear();
+			 
+			 return [year, month, day].join('-');
+		}
 		$('.form_date').datetimepicker({
 	        weekStart: 1,
 	        todayBtn:  1,
@@ -118,6 +126,21 @@
 			pickerPosition: "top-left"
 			
 	    });
+		$('#dtp_input2').val(formatDate(Date()));
+		$("#employeeForm").validate({
+			messages: {
+				firstName: {
+					required: 'Please enter the first name'
+				},
+				userName: {
+					required: 'Please enter the user name'
+				},
+				password: {
+					required: 'Please enter the password'
+				}
+			}
+		});
+
 	</script>	
 </body>
 </html>

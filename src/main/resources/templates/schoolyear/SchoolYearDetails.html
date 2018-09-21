@@ -210,7 +210,7 @@
 	<div id="schoolYearPartFormDialog" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<form method="post" th:action="@{/schoolyear.part.save}"
-				th:object="${schoolYearPart}">
+				th:object="${schoolYearPart}" id="partForm">
 				<div class="modal-content">
 					<div class="modal-header alert-success">
 						<h4 class="modal-title">School year part Form</h4>
@@ -221,7 +221,7 @@
 							<label class="col-sm-3 form-control-label">Name</label>
 							<div class="col-sm-9">
 								<input type="text" th:field="*{name}" id="partname" placeholder="Name"
-									class="form-control form-control-success" value="" />
+									class="form-control form-control-success" value="" required="required"/>
 								<small class="form-text" >Enter the name here .</small>
 							</div>
 						</div>
@@ -249,7 +249,7 @@
 						<input type="hidden" th:field="*{schoolYearId}"  value="" />
 					</div>
 					<div class="modal-footer">
-						<input type="submit" value="Ok" class="btn btn-primary" />
+						<input type="submit" value="Ok" class="submit btn btn-primary" />
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -279,6 +279,14 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		function formatDate(date) {
+			 var d = new Date(date);
+			 var month = '' + (d.getMonth() + 1);
+			 var day = '' + d.getDate();
+			 var year = d.getFullYear();
+			 
+			 return [year, month, day].join('-');
+		}
 		$(function() {
 			$(".open-DeleteDialog").click(function() {
 				$('#schoolyearid').val($(this).data('schoolyearid'));
@@ -314,6 +322,16 @@
 				pickerPosition: "bottom-left"
 				
 		    });
+			$('#dtp_input2').val(formatDate(Date()));
+			$('#dtp_input3').val(formatDate(Date()));
+			
+			$("#partForm").validate({
+				messages: {
+					name: {
+						required: 'Please enter the name'
+					}
+				}
+			});
 		});
 	</script>
 </body>
