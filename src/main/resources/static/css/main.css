@@ -1,11 +1,13 @@
-h1{
-	color:#0000FF;
-}
-
-h2{
-	color:#FF0000;
-}
-
-footer{
-    margin-top:60px;
+/* .btn-primary { */
+/*     color: color-yiq(#796AEE); */
+/*     background-color: mediumseagreen; */
+/*     border-color: mediumseagreen; */
+/* } */
+/* nav.side-navbar ul li.active > a { */
+/*     background: mediumseagreen; */
+/*     color: #fff; */
+/*     border-left: 4px solid #3b25e6; */
+/* } */
+form label.error{
+	color: red;
 }

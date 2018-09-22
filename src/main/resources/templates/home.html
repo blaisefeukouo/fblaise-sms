@@ -32,13 +32,8 @@
 	<link rel="stylesheet" th:href="@{/css/glyphicons/glyphicons.css}"></link>
 <!-- 	<link rel="stylesheet" th:href="@{/font-awesome-master/css/font-awesome.min.css}"></link> -->
 	<link rel="stylesheet" th:href="@{/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css}" media="screen"></link>
-	<link rel="shortcut icon"
+	<link rel="stylesheet"
 		th:href="@{/css/main.css}"></link>
-	<style>
-		form label.error{
-			color: red;
-		}
-	</style>
 </div>
 
 </head>
@@ -146,7 +141,7 @@
 		<!-- 		 	End header		 	 -->
 		<div class="page-content d-flex align-items-stretch">
 			<!-- Side Navbar -->
-			<div th:fragment="slide-menu">
+			<div th:fragment="slide-menu(activeTab)">
 				<!-- 			Start Left slide menu				 -->
 				<nav class="side-navbar">
 					<!-- Sidebar Header-->
@@ -163,43 +158,43 @@
 					<!-- Sidebar Navidation Menus-->
 					<span class="heading">Main</span>
 					<ul class="list-unstyled">
-						<li class="active">
+						<li th:class="${activeTab=='schoolYears'}? 'null':(${activeTab=='classrooms'}? 'null':(${activeTab=='students'}? 'null':(${activeTab=='subjects'}? 'null':(${activeTab=='appointments'}? 'null':(${activeTab=='evaluations'}? 'null':(${activeTab=='roles'}? 'null':(${activeTab=='employees'}? 'null':'active')))))))">
 							<a th:href="@{/home}"><i class="icon-home" style="font-size: 23px"></i>Home</a>
 						</li>
-						<li>
+						<li th:class="${activeTab=='schoolYears'}? 'active':null">
 							<a th:href="@{/schoolyears}"> 
 								<i class="fa fa-graduation-cap" style="font-size: 23px"></i>SchoolYears
 							</a>
 						</li>
-						<li> 
+						<li th:class="${activeTab=='classrooms'}? 'active':null"> 
 							<a th:href="@{/classrooms}"> 
 								<i class="fa fa-bank" style="font-size: 23px;"></i>
 								<label style="margin-left: 5px">Classrooms</label>
 							</a>
 						</li>
-						<li>	
+						<li th:class="${activeTab=='students'}? 'active':null"> 	
 							<a th:href="@{/students}"> <i class="fa fa-group" style="font-size: 23px"></i>
 								<label style="margin-left: 5px">Students</label>
 							</a>
 						</li>
-						<li>	
+						<li th:class="${activeTab=='subjects'}? 'active':null">	
 							<a th:href="@{/subjects}"> 
 								<i class="fa fa-book" style="font-size: 23px"></i>Subjects</a>
 						</li>
-						<li>	
+						<li th:class="${activeTab=='appointments'}? 'active':null">	
 							<a th:href="@{/appointments}"> <i class="glyphicon glyphicon-time" style="font-size: 23px;"></i>Appointments</a>
 						</li>
-						<li>	
-							<a th:href="@{/evaluatios}"><i class="fa fa-calendar" style="font-size: 23px;"></i>Evaluations</a>
+						<li th:class="${activeTab=='evaluations'}? 'active':null">	
+							<a th:href="@{/evaluations}"><i class="fa fa-calendar" style="font-size: 23px;"></i>Evaluations</a>
 						</li>
-						<li th:if="${currentUser.isAdmin()}">
+						<li th:if="${currentUser.isAdmin()}" >
 							<a href="#Settings"	aria-expanded="false" data-toggle="collapse"> 
-								<i class="glyphicon glyphicon-cog" style="font-size: 23px;"></i>
+								<i class="glyphicon glyphicon-cog" style="font-size: 23px;" th:class="${activeTab=='admin'}? 'active':null"></i>
 								<label style="margin-left: 5px">Settings</label>
 							</a>
 							<ul id="Settings" class="collapse list-unstyled ">
-								<li><a th:href="@{/admin/roles}"><i class="icon-user"></i>Roles</a></li>
-								<li><a th:href="@{/admin/employees}"><i class="glyphicon glyphicon-user"></i>Employee</a></li>
+								<li th:class="${activeTab=='roles'}? 'active':null"><a th:href="@{/admin/roles}"><i class="icon-user"></i>Roles</a></li>
+								<li th:class="${activeTab=='employees'}? 'active':null"><a th:href="@{/admin/employees}"><i class="glyphicon glyphicon-user"></i>Employee</a></li>
 							</ul>
 						</li>
 					</ul>
