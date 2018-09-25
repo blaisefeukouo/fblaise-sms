@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fblaise.sms.exception.AddingStudentInManyClassroomException;
 import com.fblaise.sms.model.Classroom;
 import com.fblaise.sms.model.ClassroomStudent;
 import com.fblaise.sms.model.Employee;
@@ -113,6 +114,7 @@ public class ClassroomController {
 		model.addAttribute("forStudentPick", forStudentPick);
 		List<Student> allStudents = studentService.findAllStudents();
 		model.addAttribute("allStudents", allStudents);
+		model.addAttribute("studentAlreadyHaveClassroom", false);
 		getTheUserConnected(model, request);
 		return "classroom/StudentPickerForClassroom";
 	}
@@ -128,7 +130,20 @@ public class ClassroomController {
 		SchoolYear currentSchoolYear = (SchoolYear) request.getSession().getAttribute("currentSchoolYear");
 		Long classroomId = forStudentPick.getParentId();
 		Long studentId = forStudentPick.getId();
-		Classroom classroom = classroomService.addStudentToClassroom(classroomId, studentId, currentSchoolYear.getId());
+		Classroom classroom = null;
+		try {
+			classroom = classroomService.addStudentToClassroom(classroomId, studentId, currentSchoolYear.getId());
+		} catch (AddingStudentInManyClassroomException e) {
+			forStudentPick = new SmsUiObject();
+			forStudentPick.setParentId(classroomId);
+			model.addAttribute("forStudentPick", forStudentPick);
+			List<Student> allStudents = studentService.findAllStudents();
+			model.addAttribute("allStudents", allStudents);
+			model.addAttribute("studentAlreadyHaveClassroom", true);
+			model.addAttribute("errorMessage", e.getMessage());
+			getTheUserConnected(model, request);
+			return "classroom/StudentPickerForClassroom";
+		}
 		return "redirect:/classroom.view.htm/" + classroom.getId();
 	}
 

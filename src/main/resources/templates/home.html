@@ -187,9 +187,9 @@
 						<li th:class="${activeTab=='evaluations'}? 'active':null">	
 							<a th:href="@{/evaluations}"><i class="fa fa-calendar" style="font-size: 23px;"></i>Evaluations</a>
 						</li>
-						<li th:if="${currentUser.isAdmin()}" >
+						<li th:if="${currentUser.isAdmin()}" th:class="${activeTab=='employees' or activeTab=='roles'}? 'active':null">
 							<a href="#Settings"	aria-expanded="false" data-toggle="collapse"> 
-								<i class="glyphicon glyphicon-cog" style="font-size: 23px;" th:class="${activeTab=='admin'}? 'active':null"></i>
+								<i class="glyphicon glyphicon-cog" style="font-size: 23px;" ></i>
 								<label style="margin-left: 5px">Settings</label>
 							</a>
 							<ul id="Settings" class="collapse list-unstyled ">

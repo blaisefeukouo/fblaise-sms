@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fblaise.sms.exception.AddingStudentInManyClassroomException;
 import com.fblaise.sms.model.Classroom;
 import com.fblaise.sms.model.ClassroomStudent;
 import com.fblaise.sms.model.SchoolYear;
@@ -80,6 +81,10 @@ public class ClassroomServiceImpl implements ClassroomService {
 		Classroom classroom = classroomRepository.findById(classroomId);
 		Student student = studentRepository.findById(studentId);
 		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
+		ClassroomStudent classroomStudent = classroomStudentRepository.findByStudentAndSchoolYear(student, schoolYear);
+		if (classroomStudent != null) {
+			throw new AddingStudentInManyClassroomException();
+		}
 		classroom.addStudent(student, schoolYear);
 		return classroomRepository.save(classroom);
 

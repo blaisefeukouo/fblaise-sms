@@ -52,5 +52,19 @@
 			</div>
 		</div>
 	</div>
+	<div id="snackbar" class="">A student cannot be in more than one classroom in a school year</div>
+	<script th:inline="javascript">
+    	 // Get the snackbar DIV
+	    /*<![CDATA[*/
+		var studentAlreadyHaveClassroom = /*[[${studentAlreadyHaveClassroom}]]*/ 'default';
+		/*]]>*/
+		if(studentAlreadyHaveClassroom){
+			var x = document.getElementById("snackbar");
+		    // Add the "show" class to DIV
+		    x.className = "show";
+		    // After 3 seconds, remove the show class from DIV
+		    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	    }
+	</script>
 </body>
 </html>
