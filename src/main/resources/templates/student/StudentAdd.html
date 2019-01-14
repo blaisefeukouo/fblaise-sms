@@ -23,8 +23,8 @@
 						<form class="form-horizontal" method="post" id="studentForm"
 							th:action="@{/student/save}" th:object="${student}">
 							<div class="page-header" style="padding: 10px; margin-bottom: 20px; margin-left: 100px">
-								<input type="submit" value="Submit" class="btn btn-primary" />
-								<a class="btn btn-secondary" th:href="@{/students}">Cancel</a>					
+								<input type="submit" value="Submit" class="btn btn-primary" id="submitButton"/>
+								<a class="btn btn-secondary" th:href="@{/students}" id="cancelButton">Cancel</a>					
 							</div>
 							<div class="card" style="margin-left: 100px">
 								<div class="card-header d-flex align-items-center">

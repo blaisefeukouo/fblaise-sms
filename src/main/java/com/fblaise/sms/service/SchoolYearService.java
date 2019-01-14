@@ -13,9 +13,9 @@ public interface SchoolYearService {
 
 	public Long saveSchoolYear(SchoolYear schoolYear);
 
-	public Long updateSchoolYear(SchoolYear schoolYearWithNewValues);
+	public SchoolYear updateSchoolYear(SchoolYear schoolYearWithNewValues);
 
-	public void deleteSchoolYear(Long id);
+	public SchoolYear deleteSchoolYear(Long id);
 
 	public SchoolYear removeSchoolYearPart(Long schoolYearId, Long schoolYearPartId);
 
@@ -25,12 +25,14 @@ public interface SchoolYearService {
 
 	public SchoolYear findOpenedSchoolYear();
 
-	public void openSchoolYear(Long schoolYearId);
+	public SchoolYear openSchoolYear(Long schoolYearId);
 
-	public void closeSchoolYear(Long schoolYearId);
+	public SchoolYear closeSchoolYear(Long schoolYearId);
 
 	public SchoolYear addClassroomToSchoolYear(Long schoolYearId, Long classroomId);
 
 	public SchoolYear removeClassroomToSchoolYear(Long schoolYearId, Long classroomId);
+
+	public SchoolYear createNewSchoolYear(SchoolYear schoolYear);
 
 }

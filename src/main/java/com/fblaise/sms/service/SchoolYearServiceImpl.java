@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fblaise.sms.exception.DupplicateOpenedSchoolYearException;
+import com.fblaise.sms.exception.DupplicateSchoolYearNameException;
 import com.fblaise.sms.exception.EndDateBeforeStartDateException;
 import com.fblaise.sms.model.Classroom;
 import com.fblaise.sms.model.ElementState;
@@ -46,20 +47,37 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 	}
 
 	@Override
-	public Long updateSchoolYear(SchoolYear schoolYearWithNewValues) {
-		if (schoolYearWithNewValues.endDateIsBeforeStartDate()) {
+	public SchoolYear createNewSchoolYear(SchoolYear schoolYear) {
+		if (schoolYear.endDateIsBeforeStartDate()) {
 			throw new EndDateBeforeStartDateException();
 		}
-		SchoolYear SchoolYear = schoolYearRepository.findById(schoolYearWithNewValues.getId());
-		SchoolYear.copyValuesFrom(schoolYearWithNewValues);
-		schoolYearRepository.save(SchoolYear);
-		return SchoolYear.getId();
+		if (schoolYearRepository.findByName(schoolYear.getName()) != null) {
+			throw new DupplicateSchoolYearNameException();
+		}
+		schoolYear.setState(ElementState.Not_opened);
+		return schoolYearRepository.save(schoolYear);
 	}
 
 	@Override
-	public void deleteSchoolYear(Long id) {
+	public SchoolYear updateSchoolYear(SchoolYear schoolYearWithNewValues) {
+		if (schoolYearWithNewValues.endDateIsBeforeStartDate()) {
+			throw new EndDateBeforeStartDateException();
+		}
+		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearWithNewValues.getId());
+		SchoolYear foundSchoolYear = schoolYearRepository.findByName(schoolYearWithNewValues.getName());
+		if (foundSchoolYear != null && foundSchoolYear != schoolYear) {
+			throw new DupplicateSchoolYearNameException();
+		}
+		schoolYear.copyValuesFrom(schoolYearWithNewValues);
+		return schoolYearRepository.save(schoolYear);
+	}
+
+	@Override
+	public SchoolYear deleteSchoolYear(Long id) {
 		// if(SchoolYear.isActuallyUsed(id))
+		SchoolYear schoolYear = schoolYearRepository.findById(id);
 		schoolYearRepository.delete(id);
+		return schoolYear;
 	}
 
 	@Override
@@ -101,23 +119,23 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 	}
 
 	@Override
-	public void openSchoolYear(Long schoolYearId) {
+	public SchoolYear openSchoolYear(Long schoolYearId) {
 		SchoolYear openedSchoolYear = schoolYearRepository.findByState(ElementState.Opened);
 		if (openedSchoolYear != null && openedSchoolYear.getId() != schoolYearId) {
 			throw new DupplicateOpenedSchoolYearException();
 		} else {
 			SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
 			schoolYear.setState(ElementState.Opened);
-			schoolYearRepository.save(schoolYear);
+			return schoolYearRepository.save(schoolYear);
 		}
 
 	}
 
 	@Override
-	public void closeSchoolYear(Long schoolYearId) {
+	public SchoolYear closeSchoolYear(Long schoolYearId) {
 		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
 		schoolYear.setState(ElementState.Closed);
-		schoolYearRepository.save(schoolYear);
+		return schoolYearRepository.save(schoolYear);
 
 	}
 

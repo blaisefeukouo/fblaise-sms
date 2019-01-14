@@ -63,7 +63,7 @@ public class SchoolYearController {
 				schoolYearId = this.schoolYearService.saveSchoolYear(schoolYear);
 			} else {
 				schoolYear.setId(uiSchoolYear.getId());
-				schoolYearId = this.schoolYearService.updateSchoolYear(schoolYear);
+				schoolYearId = this.schoolYearService.updateSchoolYear(schoolYear).getId();
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
