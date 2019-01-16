@@ -37,7 +37,7 @@ public class SchoolYear extends SmsDomain {
 	@JsonIgnore 
 	@OneToMany(mappedBy = "schoolYear", cascade = { CascadeType.REMOVE })
 	private List<SchoolYearPart> schoolYearParts = new ArrayList<>();
-
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "schoolyear_classroom", joinColumns = @JoinColumn(name = "schoolyear_id") , inverseJoinColumns = @JoinColumn(name = "classroom_id") )
 	private Set<Classroom> classrooms;
