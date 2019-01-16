@@ -18,7 +18,7 @@ import com.fblaise.sms.model.SchoolYear;
 import com.fblaise.sms.service.SchoolYearService;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5000","http://localhost:4200","https://sms-vue-ui.herokuapp.com/"})
+@CrossOrigin(origins = {"http://localhost:5000","http://localhost:4200","https://sms-vue-ui.herokuapp.com"})
 @RequestMapping("/rest")
 public class SchoolYearRestController {
 	@Autowired
