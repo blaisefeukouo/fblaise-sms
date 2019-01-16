@@ -47,20 +47,20 @@ public class ClassroomServiceImpl implements ClassroomService {
 	}
 
 	@Override
-	public Long updateClassroom(Classroom classroomWithNewValues) {
+	public Classroom updateClassroom(Classroom classroomWithNewValues) {
 		Classroom Classroom = classroomRepository.findById(classroomWithNewValues.getId());
 		Classroom.copyValuesFrom(classroomWithNewValues);
-		classroomRepository.save(Classroom);
-		return Classroom.getId();
+		return classroomRepository.save(Classroom);
 	}
 
 	@Override
-	public void deleteClassroom(Long id, SchoolYear currentSchoolYear) {
+	public Classroom deleteClassroom(Long id, SchoolYear currentSchoolYear) {
 		currentSchoolYear = schoolYearRepository.findById(currentSchoolYear.getId());
 		Classroom classroom = classroomRepository.findById(id);
 		currentSchoolYear.removeClassroom(classroom);
 		schoolYearRepository.save(currentSchoolYear);
 		classroomRepository.delete(id);
+		return classroom;
 	}
 
 	@Override
@@ -99,5 +99,13 @@ public class ClassroomServiceImpl implements ClassroomService {
 	public Classroom findClassroomOf(Student student, SchoolYear schoolYear) {
 		ClassroomStudent classroomStudent = classroomStudentRepository.findByStudentAndSchoolYear(student, schoolYear);
 		return classroomStudent != null ? classroomStudent.getClassroom() : null;
+	}
+
+	@Override
+	public SchoolYear createNewSchoolYear(Classroom classroom) {
+		classroomRepository.save(classroom);
+		SchoolYear schoolYear = schoolYearRepository.findById(1L);
+		schoolYear.addClassroom(classroom);
+		return schoolYearRepository.save(schoolYear);
 	}
 }

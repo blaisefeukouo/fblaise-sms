@@ -68,7 +68,7 @@ public class ClassroomController {
 			classroomId = this.classroomService.saveClassroom(classroom, selectedSchoolYear);
 		} else {
 			// existing person, call update
-			classroomId = this.classroomService.updateClassroom(classroom);
+			classroomId = this.classroomService.updateClassroom(classroom).getId();
 		}
 
 		return "redirect:/classroom.view.htm/" + classroomId;
