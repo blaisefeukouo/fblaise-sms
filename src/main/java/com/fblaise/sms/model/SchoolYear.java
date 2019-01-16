@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "schoolyear")
 public class SchoolYear extends SmsDomain {
@@ -32,6 +34,7 @@ public class SchoolYear extends SmsDomain {
 	private Date endDate;
 	@Enumerated(EnumType.STRING)
 	private ElementState state;
+	@JsonIgnore 
 	@OneToMany(mappedBy = "schoolYear", cascade = { CascadeType.REMOVE })
 	private List<SchoolYearPart> schoolYearParts = new ArrayList<>();
 

@@ -8,7 +8,7 @@ import com.fblaise.sms.model.ElementState;
 import com.fblaise.sms.model.SchoolYear;
 
 @Repository("schoolYearRepository")
-@CrossOrigin(origins = "http://localhost:5000")
+@CrossOrigin(origins = {"http://localhost:5000","http://localhost:4200"})
 public interface SchoolYearRepository extends JpaRepository<SchoolYear, Long> {
 
 	SchoolYear findById(Long id);
