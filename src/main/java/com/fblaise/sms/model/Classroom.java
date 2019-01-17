@@ -18,7 +18,8 @@ public class Classroom extends SmsDomain {
 	private String description;
 
 	private double fees;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ClassroomStudent> students = new ArrayList<>();
 
