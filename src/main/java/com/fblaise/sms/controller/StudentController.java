@@ -55,14 +55,14 @@ public class StudentController {
 
 	@RequestMapping(value = "/student/save", method = RequestMethod.POST)
 	public String saveStudent(@ModelAttribute("Student") Student student) {
-		Long studentId = null;
+		Student savedStudent = null;
 		if (student.getId() == null) {
-			studentId = this.studentService.saveStudent(student);
+			savedStudent = this.studentService.saveStudent(student);
 		} else {
-			studentId = this.studentService.updateStudent(student);
+			savedStudent = this.studentService.updateStudent(student);
 		}
 
-		return "redirect:/student.view.htm/" + studentId;
+		return "redirect:/student.view.htm/" + savedStudent.getId();
 
 	}
 

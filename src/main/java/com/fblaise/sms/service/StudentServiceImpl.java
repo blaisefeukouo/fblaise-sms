@@ -13,36 +13,36 @@ import com.fblaise.sms.repository.StudentRepository;
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
-	private StudentRepository StudentRepository;
+	private StudentRepository studentRepository;
 
 	@Override
 	public Student findStudentById(Long id) {
-		return StudentRepository.findById(id);
+		return studentRepository.findById(id);
 	}
 
 	@Override
 	public List<Student> findAllStudents() {
-		return StudentRepository.findAll();
+		return studentRepository.findAll();
 	}
 
 	@Override
-	public Long saveStudent(Student student) {
+	public Student saveStudent(Student student) {
 		student.setEntranceDate(new Date());
-		student = StudentRepository.save(student);
-		return student.getId();
+		student = studentRepository.save(student);
+		return student;
 	}
 
 	@Override
-	public Long updateStudent(Student StudentWithNewValues) {
-		Student Student = StudentRepository.findById(StudentWithNewValues.getId());
-		Student.copyValuesFrom(StudentWithNewValues);
-		StudentRepository.save(Student);
-		return Student.getId();
+	public Student updateStudent(Student StudentWithNewValues) {
+		Student student = studentRepository.findById(StudentWithNewValues.getId());
+		student.copyValuesFrom(StudentWithNewValues);
+		studentRepository.save(student);
+		return student;
 	}
 
 	@Override
 	public void deleteStudent(Long id) {
-		StudentRepository.delete(id);
+		studentRepository.delete(id);
 	}
 
 }
