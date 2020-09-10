@@ -1,5 +1,7 @@
 package com.fblaise.sms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +24,9 @@ public class Student extends Person {
 	@Column(name = "entrancedate")
 	private Date entranceDate;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH,
-			CascadeType.REFRESH }, fetch = FetchType.EAGER)
+			CascadeType.REFRESH }, fetch = FetchType.LAZY)
 	private List<ClassroomStudent> classrooms = new ArrayList<>();
 
 	public Student(String firstName, String lastName, String email, String phoneNumber, String matricule,
