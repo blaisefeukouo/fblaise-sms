@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5000", "http://localhost:4200", "https://sms-vue-ui.herokuapp.com"})
+@CrossOrigin(origins = {"http://localhost:5000", "http://localhost:4200", "https://sms-vue-ui.herokuapp.com", "https://sms-angular-ui.herokuapp.com"})
 @RequestMapping("/rest/students")
 public class StudentRestController {
     @Autowired
