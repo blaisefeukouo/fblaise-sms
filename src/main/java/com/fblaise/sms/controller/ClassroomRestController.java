@@ -22,8 +22,8 @@ import com.fblaise.sms.service.SchoolYearService;
 import com.fblaise.sms.service.StudentService;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:5000", "http://localhost:4200", "https://sms-vue-ui.herokuapp.com" })
-@RequestMapping("/rest")
+@CrossOrigin(origins = {"http://localhost:5000", "http://localhost:4200", "https://sms-vue-ui.herokuapp.com", "https://sms-angular-ui.herokuapp.com"})
+@RequestMapping("/rest/classrooms")
 public class ClassroomRestController {
 	@Autowired
 	private ClassroomService classroomService;
@@ -34,21 +34,21 @@ public class ClassroomRestController {
 	@Autowired
 	private StudentService studentService;
 
-	@GetMapping("/classrooms")
+	@GetMapping("/list")
 	public Collection<Classroom> getClassroomList() {
 		List<Classroom> listClassrooms = this.classroomService.findAllClassrooms();
 		return listClassrooms;
 	}
 
-	@GetMapping(path = { "/classroom/{id}" })
-	public Classroom getSchoolyearById(@PathVariable("id") Long id) {
+	@GetMapping("/view.htm/{id}")
+	public Classroom getClassroomById(@PathVariable("id") Long id) {
 		Classroom classroom = classroomService.findClassroomById(id);
 		return classroom;
 	}
 
-	@PostMapping("/classroom/add")
-	public SchoolYear createClassroom(@RequestBody Classroom classroom) {
-		return classroomService.createNewSchoolYear(classroom);
+	@PostMapping("/save")
+	public Classroom createClassroom(@RequestBody Classroom classroom) {
+		return classroomService.createNewClassroom(classroom);
 	}
 
 	@PutMapping("/classroom/update")
@@ -56,7 +56,7 @@ public class ClassroomRestController {
 		return classroomService.updateClassroom(classroom);
 	}
 
-	@DeleteMapping(path = { "classroom/{id}" })
+	@DeleteMapping(path = { "/remove/{id}" })
 	public Classroom deleteClassroom(@PathVariable("id") Long id) {
 		return classroomService.deleteClassroom(id, schoolYearService.findOpenedSchoolYear());
 	}

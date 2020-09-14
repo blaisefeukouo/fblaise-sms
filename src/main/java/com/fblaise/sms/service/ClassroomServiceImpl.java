@@ -47,6 +47,15 @@ public class ClassroomServiceImpl implements ClassroomService {
 	}
 
 	@Override
+	public Classroom createNewClassroom(Classroom classroom) {
+		classroomRepository.save(classroom);
+		SchoolYear schoolYear = schoolYearRepository.findById(1L);
+		schoolYear.addClassroom(classroom);
+		schoolYearRepository.save(schoolYear);
+		return classroom;
+	}
+
+	@Override
 	public Classroom updateClassroom(Classroom classroomWithNewValues) {
 		Classroom Classroom = classroomRepository.findById(classroomWithNewValues.getId());
 		Classroom.copyValuesFrom(classroomWithNewValues);
@@ -101,11 +110,5 @@ public class ClassroomServiceImpl implements ClassroomService {
 		return classroomStudent != null ? classroomStudent.getClassroom() : null;
 	}
 
-	@Override
-	public SchoolYear createNewSchoolYear(Classroom classroom) {
-		classroomRepository.save(classroom);
-		SchoolYear schoolYear = schoolYearRepository.findById(1L);
-		schoolYear.addClassroom(classroom);
-		return schoolYearRepository.save(schoolYear);
-	}
+
 }
