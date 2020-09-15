@@ -27,6 +27,6 @@ public interface ClassroomService {
 
 	public Classroom findClassroomOf(Student student, SchoolYear schoolYear);
 
-	public Classroom createNewClassroom(Classroom classroom);
+	public Classroom createNewClassroom(Classroom classroom, String schoolYearName);
 
 }

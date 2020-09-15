@@ -86,8 +86,7 @@ public class StudentController {
 		Student student = studentService.findStudentById(id);
 		model.addAttribute("student", student);
 		SchoolYear currentSchoolYear = (SchoolYear) request.getSession().getAttribute("currentSchoolYear");
-		Classroom claassroom = classroomService.findClassroomOf(student, currentSchoolYear);
-		model.addAttribute("classroom", claassroom);
+		model.addAttribute("classroom", student.getCurrentClassroom());
 		getTheUserConnected(model, request);
 		return "student/StudentDetails";
 	}

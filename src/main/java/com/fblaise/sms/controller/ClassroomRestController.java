@@ -46,12 +46,12 @@ public class ClassroomRestController {
 		return classroom;
 	}
 
-	@PostMapping("/save")
-	public Classroom createClassroom(@RequestBody Classroom classroom) {
-		return classroomService.createNewClassroom(classroom);
+	@PostMapping("/save/{schoolYearName}")
+	public Classroom createClassroom(@RequestBody Classroom classroom, @PathVariable("schoolYearName") String schoolYearName) {
+		return classroomService.createNewClassroom(classroom, schoolYearName);
 	}
 
-	@PutMapping("/classroom/update")
+	@PutMapping("/update")
 	public Classroom updateClassroom(@RequestBody Classroom classroom) {
 		return classroomService.updateClassroom(classroom);
 	}

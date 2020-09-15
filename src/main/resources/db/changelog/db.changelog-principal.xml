@@ -179,4 +179,12 @@
 			<column name="enddate" value="2019-09-03 00:00:00" />
 		</insert>
 	</changeSet>
+	<changeSet id="20200915" author="blaise.feukouo" dbms="postgresql,oracle">
+		<addColumn schemaName= "public" tableName="student" >
+			<column name="current_classroom_id" type="int8" />
+	    </addColumn>
+		<addForeignKeyConstraint baseTableName="student"
+								 baseColumnNames="current_classroom_id" constraintName="current_classroom_fk"
+								 referencedTableName="classroom" referencedColumnNames="id" />
+	</changeSet>
 </databaseChangeLog>

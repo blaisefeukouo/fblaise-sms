@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,32 +30,61 @@ public class StudentRestController {
     private ClassroomService classroomService;
 
     @GetMapping(value = "/list")
-    public Collection<Student> getStudentList() {
+    public Collection<StudentDto> getStudentList() {
         List<Student> listStudents = this.studentService.findAllStudents();
-        return listStudents;
+        List<StudentDto> students = new ArrayList<>();
+        for (Student student : listStudents) {
+            students.add(convertToDto(student));
+        }
+        return students;
     }
 
     @RequestMapping("/view.htm/{id}")
-    public Student viewStudent(@PathVariable("id") Long id) {
+    public StudentDto viewStudent(@PathVariable("id") Long id) {
         Student student = studentService.findStudentById(id);
-        return student;
+        return convertToDto(student);
     }
 
     @PostMapping(value = "/save")
-    public Student saveStudent(@RequestBody Student student) {
-        return this.studentService.saveStudent(student);
-
+    public StudentDto saveStudent(@RequestBody Student student) {
+        Student savedStudent = this.studentService.saveStudent(student);
+        return convertToDto(savedStudent);
     }
 
     @PutMapping(value = "/update")
-    public Student updateStudent(@RequestBody Student student) {
-        return this.studentService.updateStudent(student);
+    public StudentDto updateStudent(@RequestBody Student student) {
+        Student updatedStudent = this.studentService.updateStudent(student);
+        return convertToDto(updatedStudent);
 
     }
 
     @DeleteMapping(value = "/remove/{id}")
     public void deleteStudent(@PathVariable("id") Long id) {
         this.studentService.deleteStudent(id);
+    }
+
+    public StudentDto convertToDto(Student student) {
+        StudentDto dto = new StudentDto();
+        dto.setId(student.getId());
+        dto.setFirstName(student.getFirstName());
+        dto.setLastName(student.getLastName());
+        dto.setEmail(student.getEmail());
+        dto.setPhoneNumber(student.getPhoneNumber());
+        dto.setActive(student.isActive());
+        dto.setMatricule(student.getMatricule());
+        dto.setMotherPhoneNumber(student.getMotherPhoneNumber());
+        dto.setEntranceDate(student.getEntranceDate());
+
+        Classroom currentClassroom = student.getCurrentClassroom();
+        if(currentClassroom!=null){
+            ClassroomDto classroomDto = new ClassroomDto();
+            classroomDto.setId(currentClassroom.getId());
+            classroomDto.setName(currentClassroom.getName());
+            classroomDto.setDescription(currentClassroom.getDescription());
+            classroomDto.setFees(currentClassroom.getFees());
+            dto.setCurrentClassroom(classroomDto);
+        }
+        return dto;
     }
 
 }

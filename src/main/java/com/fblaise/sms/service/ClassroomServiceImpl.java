@@ -47,9 +47,9 @@ public class ClassroomServiceImpl implements ClassroomService {
 	}
 
 	@Override
-	public Classroom createNewClassroom(Classroom classroom) {
+	public Classroom createNewClassroom(Classroom classroom, String schoolYearName) {
 		classroomRepository.save(classroom);
-		SchoolYear schoolYear = schoolYearRepository.findById(1L);
+		SchoolYear schoolYear = schoolYearRepository.findByName(schoolYearName);
 		schoolYear.addClassroom(classroom);
 		schoolYearRepository.save(schoolYear);
 		return classroom;
@@ -94,6 +94,7 @@ public class ClassroomServiceImpl implements ClassroomService {
 		if (classroomStudent != null) {
 			throw new AddingStudentInManyClassroomException();
 		}
+		student.setCurrentClassroom(classroom);
 		classroom.addStudent(student, schoolYear);
 		return classroomRepository.save(classroom);
 
