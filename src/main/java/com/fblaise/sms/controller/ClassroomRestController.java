@@ -1,9 +1,15 @@
 package com.fblaise.sms.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.fblaise.sms.model.ClassroomStudent;
+import com.fblaise.sms.model.Student;
+import com.fblaise.sms.model.pojo.ClassroomWithStudents;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +46,11 @@ public class ClassroomRestController {
 		return listClassrooms;
 	}
 
-	@GetMapping("/view.htm/{id}")
-	public Classroom getClassroomById(@PathVariable("id") Long id) {
-		Classroom classroom = classroomService.findClassroomById(id);
-		return classroom;
+	@GetMapping("/view.htm/{classroomId}/{currentSchoolYearName}")
+	public ClassroomWithStudents getClassroomById(@PathVariable("classroomId") Long classroomId, @PathVariable("currentSchoolYearName") String currentSchoolYearName) {
+		Classroom classroom = classroomService.findClassroomById(classroomId);
+        List<Student> studentsList = classroomService.getStudentsOf(classroom, currentSchoolYearName);
+		return new ClassroomWithStudents(classroom, studentsList);
 	}
 
 	@PostMapping("/save/{schoolYearName}")

@@ -187,4 +187,10 @@
 								 baseColumnNames="current_classroom_id" constraintName="current_classroom_fk"
 								 referencedTableName="classroom" referencedColumnNames="id" />
 	</changeSet>
+
+	<changeSet id="20201026" author="blaise.feukouo" dbms="postgresql,oracle">
+		<addColumn schemaName= "public" tableName="classroom" >
+			<column name="isactive" type="boolean" defaultValue="true" />
+		</addColumn>
+	</changeSet>
 </databaseChangeLog>

@@ -25,6 +25,8 @@ public interface ClassroomService {
 
 	public List<ClassroomStudent> getStudentsOf(Classroom classroom, SchoolYear schoolYear);
 
+	public List<Student> getStudentsOf(Classroom classroom, String schoolYearName);
+
 	public Classroom findClassroomOf(Student student, SchoolYear schoolYear);
 
 	public Classroom createNewClassroom(Classroom classroom, String schoolYearName);
