@@ -5,19 +5,16 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Person extends SmsDomain {
 	@Column(name = "first_name")
-	@NotEmpty(message = "*Please provide your firt_name")
+	//@NotEmpty(message = "*Please provide your firt_name")
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
 	@Column(name = "email")
-	@Email(message = "*Please provide a valid Email")
+	//@Email(message = "*Please provide a valid Email")
 	private String email;
 	@Column(name = "phonenumber")
 	private String phoneNumber;

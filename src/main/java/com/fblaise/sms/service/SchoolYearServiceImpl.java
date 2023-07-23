@@ -29,7 +29,7 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 
 	@Override
 	public SchoolYear findSchoolYearById(Long id) {
-		return schoolYearRepository.findById(id);
+		return localFindSchoolYearById(id);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 		if (schoolYearWithNewValues.endDateIsBeforeStartDate()) {
 			throw new EndDateBeforeStartDateException();
 		}
-		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearWithNewValues.getId());
+		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearWithNewValues.getId()).get();
 		SchoolYear foundSchoolYear = schoolYearRepository.findByName(schoolYearWithNewValues.getName());
 		if (foundSchoolYear != null && foundSchoolYear != schoolYear) {
 			throw new DupplicateSchoolYearNameException();
@@ -75,15 +75,15 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 	@Override
 	public SchoolYear deleteSchoolYear(Long id) {
 		// if(SchoolYear.isActuallyUsed(id))
-		SchoolYear schoolYear = schoolYearRepository.findById(id);
-		schoolYearRepository.delete(id);
+		SchoolYear schoolYear = localFindSchoolYearById(id);
+		schoolYearRepository.deleteById(id);
 		return schoolYear;
 	}
 
 	@Override
 	public SchoolYear removeSchoolYearPart(Long schoolYearId, Long schoolYearPartId) {
-		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
-		SchoolYearPart part = schoolYearPartRepository.findById(schoolYearPartId);
+		SchoolYear schoolYear = localFindSchoolYearById(schoolYearId);
+		SchoolYearPart part = schoolYearPartRepository.findById(schoolYearPartId).get();
 		schoolYear.removeSchoolYearPart(part);
 		schoolYearRepository.save(schoolYear);
 		schoolYearPartRepository.delete(part);
@@ -103,14 +103,14 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 
 	@Override
 	public SchoolYear editSchoolYearPart(Long id, String name, Date startDate, Date endDate) {
-		SchoolYearPart schoolYearPart = schoolYearPartRepository.findById(id);
+		SchoolYearPart schoolYearPart = schoolYearPartRepository.findById(id).get();
 		SchoolYearPart schoolYearPartWintNewValues = new SchoolYearPart(name, startDate, endDate);
 		if (schoolYearPartWintNewValues.endDateIsBeforeStartDate()) {
 			throw new EndDateBeforeStartDateException();
 		}
 		schoolYearPart.copyValuesFrom(schoolYearPartWintNewValues);
 		schoolYearPartRepository.save(schoolYearPart);
-		return schoolYearRepository.findById(schoolYearPart.getSchoolYearId());
+		return schoolYearRepository.findById(schoolYearPart.getSchoolYearId()).get();
 	}
 
 	@Override
@@ -124,7 +124,7 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 		if (openedSchoolYear != null && openedSchoolYear.getId() != schoolYearId) {
 			throw new DupplicateOpenedSchoolYearException();
 		} else {
-			SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
+			SchoolYear schoolYear = localFindSchoolYearById(schoolYearId);
 			schoolYear.setState(ElementState.Opened);
 			return schoolYearRepository.save(schoolYear);
 		}
@@ -133,7 +133,7 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 
 	@Override
 	public SchoolYear closeSchoolYear(Long schoolYearId) {
-		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
+		SchoolYear schoolYear = localFindSchoolYearById(schoolYearId);
 		schoolYear.setState(ElementState.Closed);
 		return schoolYearRepository.save(schoolYear);
 
@@ -141,18 +141,26 @@ public class SchoolYearServiceImpl implements SchoolYearService {
 
 	@Override
 	public SchoolYear addClassroomToSchoolYear(Long schoolYearId, Long classroomId) {
-		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
-		Classroom classroom = classroomRepository.findById(classroomId);
+		SchoolYear schoolYear = localFindSchoolYearById(schoolYearId);
+		Classroom classroom = finClassroomById(classroomId);
 		schoolYear.addClassroom(classroom);
 		return schoolYearRepository.save(schoolYear);
 	}
 
 	@Override
 	public SchoolYear removeClassroomToSchoolYear(Long schoolYearId, Long classroomId) {
-		SchoolYear schoolYear = schoolYearRepository.findById(schoolYearId);
-		Classroom classroom = classroomRepository.findById(classroomId);
+		SchoolYear schoolYear = localFindSchoolYearById(schoolYearId);
+		Classroom classroom = finClassroomById(classroomId);
 		schoolYear.removeClassroom(classroom);
 		return schoolYear;
+	}
+
+	private SchoolYear localFindSchoolYearById(Long schoolYearId) {
+		return schoolYearRepository.findById(schoolYearId).get();
+	}
+
+	private Classroom finClassroomById(Long classroomId) {
+		return classroomRepository.findById(classroomId).get();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.fblaise.sms.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import com.fblaise.sms.model.SchoolYearPart;
 @CrossOrigin(origins = "http://localhost:4200")
 public interface SchoolYearPartRepository extends JpaRepository<SchoolYearPart, Long> {
 
-	SchoolYearPart findById(Long id);
+	Optional<SchoolYearPart> findById(Long id);
 
 	List<SchoolYearPart> findBySchoolYear(SchoolYear schoolYear);
 }

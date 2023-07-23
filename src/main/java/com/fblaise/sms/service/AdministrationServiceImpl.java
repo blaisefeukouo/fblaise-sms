@@ -51,7 +51,7 @@ public class AdministrationServiceImpl implements AdministrationService {
 		if (existingEmployee != null && employeeWithNewValues.getId() != existingEmployee.getId()) {
 			throw new DupplicateUserNameException();
 		}
-		Employee employee = employeeRepository.findById(employeeWithNewValues.getId());
+		Employee employee = employeeRepository.findById(employeeWithNewValues.getId()).get();
 		employee.copyValuesFrom(employeeWithNewValues, bCryptPasswordEncoder);
 		employeeRepository.save(employee);
 		return employee.getId();
@@ -69,20 +69,20 @@ public class AdministrationServiceImpl implements AdministrationService {
 
 	@Override
 	public Employee findEmployeeById(Long id) {
-		return employeeRepository.findById(id);
+		return employeeRepository.findById(id).get();
 	}
 
 	@Override
 	public void deleteEmployee(Long id) {
-		Employee employee = employeeRepository.findById(id);
+		Employee employee = employeeRepository.findById(id).get();
 		employee.setRoles(new HashSet<Role>());
 		employeeRepository.save(employee);
-		employeeRepository.delete(id);
+		employeeRepository.deleteById(id);
 	}
 
 	@Override
 	public Employee addRoleToEmployee(long employeeId, long roleId) {
-		Employee employee = employeeRepository.findById(employeeId);
+		Employee employee = employeeRepository.findById(employeeId).get();
 		Role role = roleRepository.findById(roleId);
 		employee.addRole(role);
 		return employeeRepository.save(employee);
@@ -90,7 +90,7 @@ public class AdministrationServiceImpl implements AdministrationService {
 
 	@Override
 	public Employee removeRoleToEmployee(long employeeId, long roleId) {
-		Employee employee = employeeRepository.findById(employeeId);
+		Employee employee = employeeRepository.findById(employeeId).get();
 		Role role = roleRepository.findById(roleId);
 		employee.removeRole(role);
 		employeeRepository.save(employee);
@@ -114,7 +114,7 @@ public class AdministrationServiceImpl implements AdministrationService {
 
 	@Override
 	public SchoolYear findProductFamilyById(Long id) {
-		return productFamilyRepository.findById(id);
+		return productFamilyRepository.findById(id).get();
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class AdministrationServiceImpl implements AdministrationService {
 
 	@Override
 	public Long updateProductFamily(SchoolYear familyWithNewValues) {
-		SchoolYear productFamily = productFamilyRepository.findById(familyWithNewValues.getId());
+		SchoolYear productFamily = productFamilyRepository.findById(familyWithNewValues.getId()).get();
 		// productFamily.copyValuesFrom(familyWithNewValues);
 		productFamilyRepository.save(productFamily);
 		return productFamily.getId();
@@ -139,7 +139,7 @@ public class AdministrationServiceImpl implements AdministrationService {
 	@Override
 	public void deleteProductFamily(Long id) {
 		// if(ProductFamily.isActuallyUsed(id))
-		productFamilyRepository.delete(id);
+		productFamilyRepository.deleteById(id);
 	}
 
 }

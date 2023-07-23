@@ -1,6 +1,7 @@
 package com.fblaise.sms.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,7 +29,7 @@ public interface ClassroomStudentRepository extends JpaRepository<ClassroomStude
 	ClassroomStudent findByStudentAndClassroomAndSchoolYear(Student student, Classroom classroom,
 			SchoolYear schoolYear);
 
-	ClassroomStudent findById(Long id);
+	Optional<ClassroomStudent> findById(Long id);
 
 	@Transactional
 	@Modifying

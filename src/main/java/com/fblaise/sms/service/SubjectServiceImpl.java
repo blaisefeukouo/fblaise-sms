@@ -1,6 +1,5 @@
 package com.fblaise.sms.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public Subject findSubjectById(Long id) {
-		return subjectRepository.findById(id);
+		return subjectRepository.findById(id).get();
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public Long updateSubject(Subject subjectWithNewValues) {
-		Subject Subject = subjectRepository.findById(subjectWithNewValues.getId());
+		Subject Subject = subjectRepository.findById(subjectWithNewValues.getId()).get();
 		Subject.copyValuesFrom(subjectWithNewValues);
 		subjectRepository.save(Subject);
 		return Subject.getId();
@@ -41,7 +40,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public void deleteSubject(Long id) {
-		subjectRepository.delete(id);
+		subjectRepository.deleteById(id);
 	}
 
 }

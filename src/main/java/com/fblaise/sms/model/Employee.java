@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fblaise.sms.AttributesNames;
@@ -26,7 +25,7 @@ public class Employee extends Person {
 	private String userName;
 
 	@Column(name = "password")
-	@NotEmpty(message = "*Please provide your password")
+	//@NotEmpty(message = "*Please provide your password")
 	private String password;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "startdate")
